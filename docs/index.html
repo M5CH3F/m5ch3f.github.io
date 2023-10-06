@@ -1,1 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing Form</title>
+    <style>
+        body {
+            background-image: url('https://images-assets.nasa.gov/image/PIA00342/PIA00342~orig.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        form {
+            color: white; /* Set text color to white */
+            background: rgba(0, 0, 0, 0.5); /* Set background with 50% opacity (adjust as needed) */
+            padding: 20px; /* Add padding to improve readability */
+        }
+        h1 {
+            background-color: rgba(0, 0, 0, 0.5); /* Set the background color for the title with opacity (adjust as needed) */
+            padding: 10px; /* Add padding to the title */
+            color: white; /* Set text color for the title to white */
+        }
+        #compiledInfo {
+            background-color: rgba(0, 0, 0, 0.5); /* Set the background color for the confirmation text with opacity */
+            color: white; /* Set text color for the confirmation text to white */
+            padding: 10px; /* Add padding to the confirmation text */
+            display: none; /* Initially hide the confirmation text */
+        }
+        .box {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .box-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <button class="box-button" onclick="openComputerForm()">Computer</button>
+        <button class="box-button" onclick="openStandardWaresForm()">Standard Wares</button>
+        <button class="box-button"></button> <!-- Leave the third button blank for now -->
+    </div>
+    <h1>Product Listing Form</h1>
+    <form id="productForm">
+        <label for="manufacturer">Manufacturer:</label>
+        <input type="text" id="manufacturer" required><br>
 
+        <label for="model">Model:</label>
+        <input type="text" id="model" required><br>
+
+        <label for="cpu">CPU:</label>
+        <input type="text" id="cpu" required>
+
+        <label for="cpuspeed">CPU Speed:</label>
+        <input type="text" id="cpuspeed" required><br>
+
+        <label for="ram">RAM:</label>
+        <input type="text" id="ram" required><br>
+
+        <label for="hasStorage">Is there a storage device installed?</label>
+        <select id="hasStorage" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br>
+
+        <div id="storageContainer">
+            <label for="storage">Storage:</label>
+            <input type="text" id="storage" required><br>
+        </div>        
+
+        <label for="charger">Charger:</label>
+        <select id="charger" required>
+            <option value="">Select an option</option>
+            <option value="Charger">Charger</option>
+            <option value="nocharger">No Charger</option>
+            <option value="powercable">Power Cable</option>
+            <option value="nopowercable">No Power Cable</option>
+        </select><br>
+
+        <label for="operatingsystem">Operating System:</label>
+        <select id="operatingsystem" required>
+            <option value="">Select an Operating System</option>
+            <option value="No Operating System Installed">No Operating System Installed</option>
+            <option value="Windows XP">Windows XP</option>
+            <option value="Windows XP Profession">Windows XP Professional</option>
+            <option value="Windows Vista">Windows Vista</option>
+            <option value="Windows 7">Windows 7</option>
+            <option value="Windows 8">Windows 8</option>
+            <option value="Windows 8.1">Windows 8.1</option>
+            <option value="Windows 10">Windows 10</option>
+            <option value="Windows 11">Windows 11</option>
+            <option value="Mac OS 10.0">Mac OS 10.0</option>
+            <option value="Mac OS 10.1">Mac OS 10.1</option>
+            <option value="Mac OS 10.2">Mac OS 10.2</option>
+            <option value="Mac OS 10.3">Mac OS 10.3</option>
+            <option value="Mac OS 10.4">Mac OS 10.4</option>
+            <option value="Mac OS 10.5">Mac OS 10.5</option>
+            <option value="Mac OS 10.6">Mac OS 10.6</option>
+            <option value="Mac OS 10.7">Mac OS 10.7</option>
+            <option value="Mac OS 10.8">Mac OS 10.8</option>
+            <option value="Mac OS 10.9">Mac OS 10.9</option>
+            <option value="Mac OS 10.10">Mac OS 10.10</option>
+            <option value="Mac OS 10.11">Mac OS 10.11</option>
+            <option value="Mac OS 10.14">Mac OS 10.14</option>
+            <option value="Mac OS 10.15">Mac OS 10.15</option>
+            <option value="Mac OS 11">Mac OS 11</option>
+            <option value="Mac OS 12">Mac OS 12</option>
+            <option value="Mac OS 13">Mac OS 13</option>
+            <option value="Mac OS 14">Mac OS 14</option>
+        </select><br>
+
+        <label for="condition">Condition:</label>
+        <select id="condition" required>
+            <option value="">Select a condition</option>
+            <option value="No Visible Damage">No Visible Damage</option>
+            <option value="Wear">Wear</option>
+            <option value="Marks">Marks</option>
+            <option value="Some wear">Some wear</option>
+            <option value="Some marks">Some marks</option>
+            <option value="Some marks/wear">Some marks/wear</option>
+        </select><br>
+            
+
+        <button type="button" onclick="compileAndSave()">Compile Info and Save</button>
+        <button type="button" onclick="clearForm()">Clear</button>
+    </form>
+
+    <p id="compiledInfo"></p>
+
+    <script>
+        function toggleStorage() {
+            const hasStorageSelect = document.getElementById("hasStorage");
+            const storageContainer = document.getElementById("storageContainer");
+            
+            if (hasStorageSelect.value === "no") {
+                storageContainer.style.display = "none";
+                document.getElementById("storage").removeAttribute("required");
+            } else {
+                storageContainer.style.display = "";
+                document.getElementById("storage").setAttribute("required", "required");
+            }
+        }
+
+        toggleStorage();
+
+        document.getElementById("hasStorage").addEventListener("change", toggleStorage);
+
+        async function compileAndSave() {
+            const manufacturer = document.getElementById("manufacturer").value;
+            const model = document.getElementById("model").value;
+            const cpu = document.getElementById("cpu").value;
+            const ram = document.getElementById("ram").value;
+            const hasStorage = document.getElementById("hasStorage").value;
+            const storage = hasStorage === "no" ? "No HDD" : document.getElementById("storage").value;
+            const operatingsystem = document.getElementById("operatingsystem").value;
+            const charger = document.getElementById("charger").value;
+            const condition = document.getElementById("condition").value;
+
+            if (!manufacturer || !model || !cpu || !ram || !charger || !condition) {
+                alert("Please fill in all required information to save.");
+                return;
+            }
+
+            const productTitle = `${manufacturer} ${model} ${cpu} ${ram}/${storage} + ${charger}`;
+            const compiledInfo = `Product Title: ${productTitle}\nCPU: ${cpu}\nRAM: ${ram}\nStorage: ${storage}\nCharger: ${charger}\nCondition: ${condition}`;
+
+            const blob = new Blob([compiledInfo], { type: 'text/plain' });
+
+            try {
+                const options = {
+                    suggestedName: `${productTitle}.txt`
+                };
+                const fileHandle = await window.showSaveFilePicker(options);
+                const writable = await fileHandle.createWritable();
+                await writable.write(blob);
+                await writable.close();
+
+                const compiledInfoElement = document.getElementById("compiledInfo");
+                compiledInfoElement.textContent = `Info saved as ${fileHandle.name}`;
+                compiledInfoElement.style.display = "block"; // Show the confirmation text
+
+                setTimeout(() => {
+                    compiledInfoElement.style.display = "none";
+                    compiledInfoElement.textContent = ""; // Clear the text
+                }, 5000); // 5000 milliseconds = 5 seconds
+            } catch (error) {
+                console.error("Error saving file:", error);
+            }
+        }
+
+        function clearForm() {
+            document.getElementById("manufacturer").value = "";
+            document.getElementById("model").value = "";
+            document.getElementById("cpu").value = "";
+            document.getElementById("ram").value = "";
+            document.getElementById("storage").value = "";
+            document.getElementById("charger").value = "";
+            document.getElementById("condition").value = "";
+            
+            const compiledInfoElement = document.getElementById("compiledInfo");
+            compiledInfoElement.style.display = "none"; // Hide the confirmation text
+            compiledInfoElement.textContent = ""; // Clear the text
+        }
+    </script>
+</body>
+</html>
